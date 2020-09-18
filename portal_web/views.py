@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Módulos para la manipulación de usuarios
 from django.contrib.auth import (
@@ -27,7 +28,8 @@ def index(request):
 
 
 # Vista de inicio de sesión
-def login(request):
+
+def login_view(request):
 
     form = UserLoginForm(request.POST or None)
 
@@ -39,7 +41,7 @@ def login(request):
         user = authenticate(username=username, password=password)
         login(request, user)
 
-        return redirect()
+        return redirect('/main/')
 
     login_context = {
         'form': form,
@@ -49,4 +51,8 @@ def login(request):
     return render(request, 'login.html', login_context)
 
 
-#
+# Vista de acceso a portal principal (Hola mundo en primer prueba)
+
+@login_required
+def main(request):
+    return render(request, 'main.html')

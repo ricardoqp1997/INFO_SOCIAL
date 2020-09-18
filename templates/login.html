@@ -20,6 +20,15 @@
   </head>
 
         <body class="text-center">
+
+            {% if messages %}
+                {% for message in messages %}
+                      <div class="alert alert-{{ message.tags }}" style="margin-top: 15px">
+                        {{ message }}
+                      </div>
+                {% endfor %}
+            {% endif %}
+
             <form class="form-signin" method="POST">
 
                 {% csrf_token %}

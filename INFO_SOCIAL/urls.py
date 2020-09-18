@@ -18,14 +18,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from portal_web import views as portal_views
+from django.contrib.auth import views as auth_views
 
 # URLs del portal web
 urlpatterns = [
 
-    # index de "portal_web" redireccionará a Login si no se ha iniciado sesión
+    # Index de "portal_web" redireccionará a Login si no se ha iniciado sesión
     path('', portal_views.index, name='index'),
 
-    path('login/', portal_views.login, name='login'),
+    # Manejo de sesión del usuario
+    path('login/', portal_views.login_view, name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+
+    # Panel principal
+    path('main/', portal_views.main, name='main'),
 
     # Acceso al panel administrativo
     path('admin/', admin.site.urls),

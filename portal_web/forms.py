@@ -9,24 +9,22 @@ class UserLoginForm(forms.Form):
         label='Usuario',
         widget=forms.TextInput(
             attrs={
-                'type': 'email',
                 'class': 'form-control',
                 'placeholder': 'Usuario',
-                'required': 'required',
                 'autofocus': 'autofocus'
             }
-        )
+        ),
+        required=True
     )
     password = forms.CharField(
         label='Contraseña',
         widget=forms.PasswordInput(
             attrs={
-                'type': 'password',
                 'class': 'form-control',
                 'placeholder': 'Contraseña',
-                'required': 'required',
             }
-        )
+        ),
+        required=True
     )
 
     def clean(self, *args, **kwargs):
