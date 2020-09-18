@@ -26,7 +26,7 @@ def index(request):
         return redirect('login/')
 
 
-# vista de inicio de sesión
+# Vista de inicio de sesión
 def login(request):
 
     form = UserLoginForm(request.POST or None)
@@ -39,9 +39,14 @@ def login(request):
         user = authenticate(username=username, password=password)
         login(request, user)
 
+        return redirect()
+
     login_context = {
         'form': form,
         'page_title': 'Inicio de sesión'
     }
 
     return render(request, 'login.html', login_context)
+
+
+#

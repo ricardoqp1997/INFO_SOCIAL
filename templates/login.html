@@ -24,23 +24,30 @@
 
                 {% csrf_token %}
 
-                <img class="mb-4" src="{% static '/assets/brand/alfiler.svg' %}" alt="" width="72" height="72">
+                <img class="mb-4" src="{% static '/assets/brand/ofelia-logo225x225.png' %}" alt="" width="180" height="180">
                 <h1 class="h3 mb-3 font-weight-normal">¡Bienvenido!</h1>
 
-                <label for="inputEmail" class="sr-only">Usuario</label>
-                <input type="email" id="inputEmail" class="form-control" placeholder="Usuario" required autofocus>
-                <label for="inputPassword" class="sr-only">Contraseña</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+                <label for="{{ form.username.id_for_label }}" class="sr-only">Usuario</label>
+                <!--input type="email" class="form-control" placeholder="Usuario" required autofocus-->
+                {{ form.username }}
+
+                <label for="{{ form.password.id_for_label }}" class="sr-only">Contraseña</label>
+                <!--input type="password" class="form-control" placeholder="Contraseña" required-->
+                {{ form.password }}
+
                 <div class="checkbox mb-3">
                     <label>
-                      <input type="button" class="btn btn-link" value="¿No puedes acceder?">
-                        <input type="button" class="btn btn-link" value="¡Registrate!">
+                      <input type="button" class="form-custom-button btn" value="¿No puedes acceder?">
                     </label>
-
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+
+                <button class="btn btn-lg btn-dark btn-block" type="submit">Ingresar</button>
+
+
+
                 <p class="mt-5 mb-3 text-muted">&copy; 2020. Todos los derechos reservados</p>
             </form>
+
         </body>
 
 </html>

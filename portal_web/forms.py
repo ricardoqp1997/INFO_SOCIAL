@@ -5,8 +5,29 @@ from django.contrib.auth import authenticate
 # Form de inicio de sesión para usuarios
 class UserLoginForm(forms.Form):
 
-    username = forms.CharField(label='Usuario')
-    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    username = forms.CharField(
+        label='Usuario',
+        widget=forms.TextInput(
+            attrs={
+                'type': 'email',
+                'class': 'form-control',
+                'placeholder': 'Usuario',
+                'required': 'required',
+                'autofocus': 'autofocus'
+            }
+        )
+    )
+    password = forms.CharField(
+        label='Contraseña',
+        widget=forms.PasswordInput(
+            attrs={
+                'type': 'password',
+                'class': 'form-control',
+                'placeholder': 'Contraseña',
+                'required': 'required',
+            }
+        )
+    )
 
     def clean(self, *args, **kwargs):
 
