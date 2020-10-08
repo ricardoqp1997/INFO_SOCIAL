@@ -25,7 +25,7 @@
                     la oportunidad de realizar su trabajo en casa sin inconvenientes.</p>
                 <p><a class="btn btn-lg btn-light" href="{% url 'docencia' %}" role="button">Ingresar</a></p>
               {% else %}
-                  <h1>Administración y configuración del sitio.</h1>
+                  <h1>Administración del sitio.</h1>
                 <p>Accede al portal administrativo para revisar temas de gestion de la pagina y de todos los aspectos generales
                 para así mantener el sitio totalmente.</p>
                 <p><a class="btn btn-lg btn-light" href="{% url 'administrador' %}" role="button">Ingresar</a></p>
@@ -113,7 +113,7 @@
             <p><a class="btn btn-secondary" href="{% url 'soporte' %}" role="button">Soporte &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
 
-        {% if user.is_admin %}
+        {% if tipo_usuario == 'Administradores' %}
             <div class="col-lg-4">
                 <img src="{% static '/assets/brand/administracion.svg' %}" alt="..." width="150" height="150" style="margin-bottom: 5%">
                   <h2>Administrar sitio</h2>
