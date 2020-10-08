@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Adios</title>
-</head>
-<body>
-    <h1>Ha cerrado sesión</h1>
-<a type="button" href="{% url 'login' %}">Iniciar Sesion</a>
-</body>
-</html>
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content_main %}
+
+     <div class="container marketing header_of_pages">
+        <div class="col-lg-4 align-self-center">
+            <img src="{% static '/assets/brand/finalizar-la-sesion.svg' %}" alt="..." width="150" height="150" style="margin-bottom: 5%">
+            <h2>Has finalizado tu sesión</h2>
+
+            <p>Para volver a ingresar al portal simplemente usa el botón de ingresar y podrás identificarte
+             de nuevo para regresar.</p>
+
+            <p>Recuerda que la educación continua del estudiante es un deber a cumplir sin importar
+            la situación que estamos viviendo. Juntos saldremos adelante, cuidate y cuida a los tuyos
+            para pronto regresar a las aulas.</p>
+
+            <br>
+            <a href="{% url 'login' %}" class="btn btn-lg btn-dark btn-block">Ingresar</a>
+         </div><!-- /.col-lg-4 -->
+     </div>
+
+{% endblock %}

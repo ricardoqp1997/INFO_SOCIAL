@@ -1,4 +1,9 @@
 {% load static %}
+
+*{
+  font-family: 'Lato', sans-serif;
+}
+
 html,
 body {
   height: 100%;

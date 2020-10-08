@@ -33,6 +33,12 @@ urlpatterns = [
     # Panel principal
     path('main/', portal_views.main, name='main'),
 
+    # Accesos principales al sitio
+    path('main/aula/', portal_views.main, name='aula'),
+    path('main/docencia/', portal_views.main, name='docencia'),
+    path('main/noticias/', portal_views.main, name='noticias'),
+    path('main/soporte/', portal_views.main, name='soporte'),
+
     # Acceso al panel administrativo
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
 ]
