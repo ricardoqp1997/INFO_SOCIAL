@@ -12,24 +12,35 @@ from django.contrib.auth import (
     logout
 )
 
+from django.contrib.auth.models import Group
+
 # Módulos de forms.py
 from .forms import (
     UserLoginForm,
 )
 
+user = None
+
 
 # redireccionamiento de la pagina respecto a la autenticación del usuario
 def index(request):
     if request.user.is_authenticated:
-        return redirect('main/')
+        return redirect('/main/')
     else:
         logout(request)
         return redirect('login/')
 
 
+# redireccionamiento de la pagina al portal administrativo
+def redirect_admin(request):
+    return redirect('/admin/')
+
+
 # Vista de inicio de sesión
 
 def login_view(request):
+
+    global user
 
     form = UserLoginForm(request.POST or None)
 
@@ -45,7 +56,8 @@ def login_view(request):
 
     login_context = {
         'form': form,
-        'page_title': 'Inicio de sesión'
+        'page_title': 'Inicio de sesión',
+
     }
 
     return render(request, 'login.html', login_context)
@@ -53,6 +65,22 @@ def login_view(request):
 
 # Vista de acceso a portal principal (Hola mundo en primer prueba)
 
-@login_required
+@login_required(login_url='http://127.0.0.1:8000/login/')
 def main(request):
-    return render(request, 'main.html')
+
+    if request.user.is_authenticated:
+
+        global user
+
+        tipo_usuario = Group.objects.get(user=request.user).name
+
+        print(request.user.username)
+        print('tipo_usuario: ' + str(tipo_usuario))
+
+        context_inicio = {
+            'Title': 'Inicio',
+            'tipo_usuario': tipo_usuario
+        }
+        return render(request, 'main.html', context_inicio)
+    else:
+        return redirect('/login/')
