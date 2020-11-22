@@ -95,11 +95,6 @@ body {
   }
 }
 
-.shadow_nav{
-  -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.75);
-}
 
 .header_of_pages{
   margin-top: 10%;

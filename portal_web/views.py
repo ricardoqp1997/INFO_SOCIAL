@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+# Módulos de configuracion del proyecto
+from django.conf import settings
+
 # Módulos para la manipulación de usuarios
 from django.contrib.auth import (
     authenticate,
@@ -65,17 +68,15 @@ def login_view(request):
 
 # Vista de acceso a portal principal (Hola mundo en primer prueba)
 
-@login_required(login_url='http://127.0.0.1:8000/login/')
+@login_required(login_url=settings.LOGIN_URL)
 def main(request):
 
     if request.user.is_authenticated:
 
         global user
-
         tipo_usuario = Group.objects.get(user=request.user).name
-
-        print(request.user.username)
-        print('tipo_usuario: ' + str(tipo_usuario))
+        # print(request.user.username)
+        # print('tipo_usuario: ' + str(tipo_usuario))
 
         context_inicio = {
             'Title': 'Inicio',
@@ -84,3 +85,12 @@ def main(request):
         return render(request, 'main.html', context_inicio)
     else:
         return redirect('/login/')
+
+
+@login_required(login_url=settings.LOGIN_URL)
+def contenido_estudiante(request):
+
+    context_contenido = {
+        'Title': 'Aula de clases',
+    }
+    return render(request, 'site_content.html', context_contenido)
