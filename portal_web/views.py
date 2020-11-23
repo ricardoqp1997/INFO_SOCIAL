@@ -92,10 +92,12 @@ def main(request):
 @login_required(login_url=settings.LOGIN_URL)
 def contenido_estudiante(request):
 
+    tipo_usuario = Group.objects.get(user=request.user).name
     asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=request.user).count()
 
     context_contenido = {
         'Title': 'Aula de clases',
+        'tipo_usuario': tipo_usuario,
         'on_screen': 'tablero',
         'subjects': asignaturas
     }
