@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'portal_web',
 ]
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -59,8 +58,7 @@ ROOT_URLCONF = 'INFO_SOCIAL.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,10 +78,14 @@ WSGI_APPLICATION = 'INFO_SOCIAL.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dict(
+        ENGINE='django.db.backends.mysql',
+        NAME='bd_tucolegio',
+        USER='kq7t21ke06o4',
+        PASSWORD='a1DCBA?b8',
+        HOST='107.180.0.219',
+        PORT='3306'
+    )
 }
 
 

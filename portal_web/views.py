@@ -99,6 +99,8 @@ def contenido_estudiante(request):
         'Title': 'Aula de clases',
         'tipo_usuario': tipo_usuario,
         'on_screen': 'tablero',
-        'subjects': asignaturas
+        'subjects': asignaturas,
+        'tasks': None,
+        'range': range(5),
     }
     return render(request, 'site_content.html', context_contenido)
