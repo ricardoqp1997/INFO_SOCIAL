@@ -22,6 +22,8 @@ from .forms import (
     UserLoginForm,
 )
 
+from .models import *
+
 user = None
 
 
@@ -90,7 +92,11 @@ def main(request):
 @login_required(login_url=settings.LOGIN_URL)
 def contenido_estudiante(request):
 
+    asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=request.user).count()
+
     context_contenido = {
         'Title': 'Aula de clases',
+        'on_screen': 'tablero',
+        'subjects': asignaturas
     }
     return render(request, 'site_content.html', context_contenido)
