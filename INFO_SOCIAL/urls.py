@@ -38,6 +38,7 @@ urlpatterns = [
 
     # Accesos principales al sitio
     path('main/aula/', portal_views.contenido_estudiante, name='aula'),
+    path('main/aula/curso/', portal_views.panel_curso, name='curso'),
     path('main/aula/', portal_views.contenido_estudiante, name='tareas'),
     path('main/aula/', portal_views.contenido_estudiante, name='resolucion_tareas'),
 

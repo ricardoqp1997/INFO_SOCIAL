@@ -1,1 +1,62 @@
-{% extends 'site_content.html' %}
+{% extends 'Masterpage/site_content.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+    <main role="main" class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <img class="mr-3" src="{% static 'assets/brand/classroom.svg' %}" alt="" width="48" height="48">
+    <div class="lh-100">
+      <h6 class="mb-0 text-white lh-100">Tu aula de clase</h6>
+      <small>Bienvenido a tu aula de clases, explora tu contenido y tareas pendientes por realizar.</small>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Tareas y otros pendientes</h6>
+
+      {% for task in tasks_list reversed %}
+        <div class="media text-muted pt-3">
+            <img src="{% static 'assets/brand/tarea.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="titulo_tarea text-gray-dark">{{ task.titulo }}</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark titulo_asignatura"><i>{{ task.asignatura }}</i></strong>
+            </div>
+            <span class="d-block">{{ task.descripcion }}</span>
+          </div>
+        </div>
+      {% endfor %}
+
+    <small class="d-block text-right mt-3">
+      <a href="#">Todas mis tareas</a>
+    </small>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Últimas lecciones en tus clases</h6>
+
+      {% for class in classes_list reversed %}
+        <div class="media text-muted pt-3">
+            <img src="{% static 'assets/brand/clase.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="titulo_tarea text-gray-dark">{{ class.titulo }}</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark titulo_asignatura"><i>{{ class.asignatura }}</i></strong>
+            </div>
+            <span class="d-block">{{ class.descripcion }}</span>
+          </div>
+        </div>
+      {% endfor %}
+
+    <small class="d-block text-right mt-3">
+      <a href="#">Revisar mis clases</a>
+    </small>
+  </div>
+</main>
+
+{% endblock dashboard %}

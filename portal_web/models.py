@@ -114,6 +114,14 @@ class Estudiante(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
+    whatsapp = models.CharField(
+        verbose_name='Número telefónico de Whatsapp',
+        help_text='Ingrese el número de contacto de este estudiante, también servirá para contacto por WhatsApp.\n'
+                  'NOTA: En caso de que el estudiante no posea este tipo de contacto agregar el del acudiente.',
+        unique=True,
+        null=True,
+        max_length=10,
+    )
 
     class Meta:
         verbose_name = 'Estudiante'
