@@ -122,6 +122,14 @@ class Estudiante(models.Model):
         null=True,
         max_length=10,
     )
+    direccion = models.CharField(
+        verbose_name='Dirección de domicilio',
+        help_text='Indique la dirección de domicilio de este estudiante. En dado caso de que se requiera esta '
+                  'información para temas academicos con sus compañeros, docentes o administrativos de la '
+                  'institución.',
+        max_length=255,
+        null=True,
+    )
 
     class Meta:
         verbose_name = 'Estudiante'
