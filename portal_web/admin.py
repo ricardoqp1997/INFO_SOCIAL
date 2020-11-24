@@ -73,7 +73,26 @@ class EstudianteAdmin(admin.ModelAdmin):
     get_asignaturas_estudiante.short_description = 'Asignaturas provistas'
 
 
+class TareaAdmin(admin.ModelAdmin):
+
+    add_fieldsets = (
+        (
+            'Para iniciar la creación de la tarea, indique a que curso pertenece. Luego de eso puede presionar '
+            '"guardar y continuar editando" o simplemente "guardar" si desea continuar la edición después.', {
+                'classes': ['wide', ],
+                'fields': ['curso', ]
+            }
+        ),
+    )
+
+    def get_fieldsets(self, request, obj=None):
+        if not obj:
+            return self.add_fieldsets
+        return super().get_fieldsets(request, obj)
+
+
 admin.site.register(Curso, CursoAdmin)
 admin.site.register(Docente, DocenteAdmin)
 admin.site.register(Asignatura, AsignaturaAdmin)
 admin.site.register(Estudiante, EstudianteAdmin)
+admin.site.register(Tarea, TareaAdmin)

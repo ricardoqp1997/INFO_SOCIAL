@@ -121,3 +121,35 @@ class Estudiante(models.Model):
 
     def __str__(self):
         return self.user.get_full_name()
+
+
+class Tarea(models.Model):
+
+    curso = models.ForeignKey(
+        Curso,
+        on_delete=models.CASCADE
+    )
+    asignatura = models.ForeignKey(
+        Asignatura,
+        on_delete=models.CASCADE,
+        # limit_choices_to={'curso': curso}
+    )
+    estudiante = models.ManyToManyField(
+        Estudiante,
+        # limit_choices_to={'curso': curso}
+    )
+
+    titulo = models.CharField(
+        verbose_name='Título de la tarea',
+        help_text='Asigne el título para esta tarea, sea lo mas específico posible para que los estudiantes'
+                  'tengan claro el objetivo de la tarea.',
+        max_length=100,
+        blank=True
+    )
+    descripcion = models.TextField(
+        verbose_name='Descripción/contenido',
+        help_text='Desrciba el compromiso que sus estudiantes tiene que hacer, trate de ser puntual para aminorar'
+                  'las dudas de sus estudiantes.',
+        max_length=500,
+        blank=True
+    )
