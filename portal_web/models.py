@@ -125,18 +125,43 @@ class Estudiante(models.Model):
 
 class Tarea(models.Model):
 
+    EN_DESARROLLO = 'DES'
+    ENVIADA = 'ENV'
+    REALIZADA = 'REA'
+    CALIFICADA = 'CLF'
+
+    REGIMEN_CHOICES = [
+        (EN_DESARROLLO, 'En desarrollo'),
+        (ENVIADA, 'Enviada'),
+        (REALIZADA, 'Realizada'),
+        (CALIFICADA, 'Calificada'),
+    ]
+
+    estado = models.CharField(
+        choices=REGIMEN_CHOICES,
+        default='DES',
+        max_length=3,
+        verbose_name='Estado de la tarea',
+    )
     curso = models.ForeignKey(
         Curso,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='Curso o grado',
+        help_text='Especifique a que grupo de estudiantes de un grado determinado será esta tarea.'
     )
     asignatura = models.ForeignKey(
         Asignatura,
-        on_delete=models.CASCADE,
-        # limit_choices_to={'curso': curso}
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Asignatura de la tarea',
+        help_text='Es necesario también determinar a que asignatura está dirigida esta tarea (en caso de que'
+                  'usted dicte mas de una asignatura en un mismo curso).'
     )
     estudiante = models.ManyToManyField(
         Estudiante,
-        # limit_choices_to={'curso': curso}
+        verbose_name='Estudiante(s)',
+        help_text='Indique el o los estudiantes del curso que requieran hacer esta tarea.',
+
     )
 
     titulo = models.CharField(
@@ -144,12 +169,102 @@ class Tarea(models.Model):
         help_text='Asigne el título para esta tarea, sea lo mas específico posible para que los estudiantes'
                   'tengan claro el objetivo de la tarea.',
         max_length=100,
-        blank=True
+        null=True,
     )
     descripcion = models.TextField(
-        verbose_name='Descripción/contenido',
+        verbose_name='Descripción o contenido',
         help_text='Desrciba el compromiso que sus estudiantes tiene que hacer, trate de ser puntual para aminorar'
                   'las dudas de sus estudiantes.',
         max_length=500,
-        blank=True
+        null=True,
     )
+    adjuntos = models.FileField(
+        verbose_name='Archivos adjuntos',
+        help_text='(Opcional). Si se requiere para el desarrollo de la tarea, adjunte documentos o multimedia'
+                  'para el desarrollo de la tarea.',
+        null=True,
+        blank=True,
+        upload_to='tareas/'
+    )
+
+    class Meta:
+        verbose_name = 'Tarea'
+        verbose_name_plural = 'Tareas'
+
+    def __str__(self):
+
+        if self.titulo is None:
+            return str(self.curso.get_grado_display()) + ' - Tarea sin especificar'
+        else:
+            return str(self.curso.get_grado_display()) + ' - ' + self.titulo
+
+
+class Clase(models.Model):
+
+    INACTIVA = False
+    ACTIVA = True
+
+    REGIMEN_CHOICES = [
+        (INACTIVA, 'Clase inactiva'),
+        (ACTIVA, 'Clase activa'),
+    ]
+
+    estado = models.BooleanField(
+        choices=REGIMEN_CHOICES,
+        default=False,
+        verbose_name='Estado de la clase',
+    )
+
+    curso = models.ForeignKey(
+        Curso,
+        on_delete=models.CASCADE,
+        verbose_name='Curso o grado',
+        help_text='Especifique a que grupo de estudiantes de un grado determinado será esta clase.'
+    )
+    asignatura = models.ForeignKey(
+        Asignatura,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Asignatura de la tarea',
+        help_text='Es necesario también determinar a que asignatura está dirigida esta clase (en caso de que'
+                  'usted dicte mas de una asignatura en un mismo curso).'
+    )
+    estudiante = models.ManyToManyField(
+        Estudiante,
+        verbose_name='Estudiante(s)',
+        help_text='Indique el o los estudiantes del curso que recibirán esta clase.',
+
+    )
+
+    titulo = models.CharField(
+        verbose_name='Título de la clase',
+        help_text='Asigne el título para el contenido desarrollado de esta clase',
+        max_length=100,
+        null=True,
+    )
+    descripcion = models.TextField(
+        verbose_name='Descripción o contenido',
+        help_text='Desrciba claramente el contenido de esta clase, puntualice lo que el estudiante encontrará en '
+                  'este tema, para luego complementarlo con los archivos adjuntos requeridos',
+        max_length=500,
+        null=True,
+    )
+    adjuntos = models.FileField(
+        verbose_name='Archivos adjuntos',
+        help_text='Es recomendable dejar contenidos adjuntos como documentos, imagenes, etc para que el estudiante'
+                  'pueda instruirse sin inconvenientes.',
+        null=True,
+        blank=True,
+        upload_to='clases/'
+    )
+
+    class Meta:
+        verbose_name = 'Clase'
+        verbose_name_plural = 'Clases'
+
+    def __str__(self):
+
+        if self.titulo is None:
+            return str(self.curso.get_grado_display()) + ' - Clase sin especificar'
+        else:
+            return str(self.curso.get_grado_display()) + ' - ' + self.titulo

@@ -93,14 +93,49 @@ def main(request):
 def contenido_estudiante(request):
 
     tipo_usuario = Group.objects.get(user=request.user).name
-    asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=request.user).count()
+
+    try:
+        asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=request.user)
+        cant_asignaturas = asignaturas.count()
+    except:
+        cant_asignaturas = asignaturas = None
+
+    try:
+        tareas = Tarea.objects.filter(
+            estudiante__user_id=request.user.id,
+            estado=Tarea.ENVIADA
+        )
+        cant_tareas = tareas.count()
+        list_tareas = tareas[:5]
+    except:
+        list_tareas = cant_tareas = tareas = None
+
+    try:
+        clases = Clase.objects.filter(
+            estudiante__user_id=request.user.id
+        )
+        cant_clases = clases.count()
+        list_clases = clases[:5]
+    except:
+        list_clases = cant_clases = clases = None
 
     context_contenido = {
         'Title': 'Aula de clases',
         'tipo_usuario': tipo_usuario,
         'on_screen': 'tablero',
-        'subjects': asignaturas,
-        'tasks': None,
+
+        'subjects_count': cant_asignaturas,
+        'tasks_count': cant_tareas,
+        'classes_count': cant_clases,
+
+        'tasks_list': list_tareas,
+        'classes_list': list_clases,
         'range': range(5),
     }
+
     return render(request, 'site_content.html', context_contenido)
+
+
+@login_required(login_url=settings.LOGIN_URL)
+def contenido_docente(request):
+    return redirect('/admin/')

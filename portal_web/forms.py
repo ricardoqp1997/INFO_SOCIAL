@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import authenticate
 
+from .models import *
+
 
 # Form de inicio de sesión para usuarios
 class UserLoginForm(forms.Form):
@@ -44,3 +46,8 @@ class UserLoginForm(forms.Form):
                 raise forms.ValidationError('El usuario ingresado no está activo.')
 
         return super(UserLoginForm, self).clean()
+
+
+class AssigmentForm(forms.ModelForm):
+
+    pass
