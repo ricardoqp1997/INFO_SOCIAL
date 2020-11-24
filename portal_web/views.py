@@ -177,13 +177,13 @@ def panel_curso(request):
     try:
         partners = Estudiante.objects.filter(
             curso__estudiante__user_id=request.user.id
-        )
+        ).exclude(clase__estudiante__user_id=request.user.id)
         print(partners)
     except:
         partners = None
 
     context_contenido = {
-        'Title': 'Aula de clases',
+        'Title': 'Mi curso',
         'tipo_usuario': tipo_usuario,
         'on_screen': 'curso',
 
@@ -197,6 +197,52 @@ def panel_curso(request):
     }
 
     return render(request, 'curso.html', context_contenido)
+
+
+def panel_asignaturas(request):
+
+    tipo_usuario = Group.objects.get(user=request.user).name
+
+    try:
+        asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=request.user)
+        cant_asignaturas = asignaturas.count()
+    except:
+        cant_asignaturas = asignaturas = None
+
+    try:
+        tareas = Tarea.objects.filter(
+            estudiante__user_id=request.user.id,
+            estado=Tarea.ENVIADA
+        )
+        cant_tareas = tareas.count()
+        list_tareas = tareas[:5]
+    except:
+        list_tareas = cant_tareas = tareas = None
+
+    try:
+        clases = Clase.objects.filter(
+            estudiante__user_id=request.user.id
+        )
+        cant_clases = clases.count()
+        list_clases = clases[:5]
+    except:
+        list_clases = cant_clases = clases = None
+
+    context_contenido = {
+        'Title': 'Mis asignaturas',
+        'tipo_usuario': tipo_usuario,
+        'on_screen': 'asignaturas',
+
+        'subjects_count': cant_asignaturas,
+        'tasks_count': cant_tareas,
+        'classes_count': cant_clases,
+
+        'tasks_list': list_tareas,
+        'classes_list': list_clases,
+        'subjects_list': asignaturas,
+    }
+
+    return render(request, 'asignaturas.html', context_contenido)
 
 
 class ListaTareas(ListView):
