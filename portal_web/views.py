@@ -249,13 +249,118 @@ class ListaTareas(ListView):
     pass
 
 
-class ListaClases(ListView):
-    pass
-
-
 class DetalleTareas(ListView):
     pass
 
 
-class DetalleClases(ListView):
-    pass
+class ListaClases(ListView):
+
+    paginate_by = 5
+    model = Clase
+    template_name = 'clases.html'
+    queryset = Clase.objects.all()
+
+    def get_queryset(self):
+        return Clase.objects.filter(curso__estudiante__user_id=self.request.user.id)
+
+    def get_context_data(self, **kwargs):
+
+        tipo_usuario = Group.objects.get(user=self.request.user).name
+
+        try:
+            asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=self.request.user)
+            cant_asignaturas = asignaturas.count()
+        except:
+            cant_asignaturas = asignaturas = None
+
+        try:
+            tareas = Tarea.objects.filter(
+                estudiante__user_id=self.request.user.id,
+                estado=Tarea.ENVIADA
+            )
+            cant_tareas = tareas.count()
+            list_tareas = tareas[:5]
+        except:
+            list_tareas = cant_tareas = tareas = None
+
+        try:
+            clases = Clase.objects.filter(
+                estudiante__user_id=self.request.user.id
+            )
+            cant_clases = clases.count()
+            list_clases = clases[:5]
+        except:
+            list_clases = cant_clases = clases = None
+
+        context = super(ListaClases, self).get_context_data(**kwargs)
+
+        context.update(
+            {
+                'Title': 'Mis lecciones',
+                'tipo_usuario': tipo_usuario,
+                'on_screen': 'contenido_clases',
+
+                'subjects_count': cant_asignaturas,
+                'tasks_count': cant_tareas,
+                'classes_count': cant_clases,
+
+                'tasks_list': list_tareas,
+                'classes_list': list_clases,
+            }
+        )
+
+        return context
+
+
+class DetalleClases(DetailView):
+
+    model = Clase
+    template_name = 'clases_detalles.html'
+
+    def get_context_data(self, **kwargs):
+
+        tipo_usuario = Group.objects.get(user=self.request.user).name
+
+        try:
+            asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=self.request.user)
+            cant_asignaturas = asignaturas.count()
+        except:
+            cant_asignaturas = asignaturas = None
+
+        try:
+            tareas = Tarea.objects.filter(
+                estudiante__user_id=self.request.user.id,
+                estado=Tarea.ENVIADA
+            )
+            cant_tareas = tareas.count()
+            list_tareas = tareas[:5]
+        except:
+            list_tareas = cant_tareas = tareas = None
+
+        try:
+            clases = Clase.objects.filter(
+                estudiante__user_id=self.request.user.id
+            )
+            cant_clases = clases.count()
+            list_clases = clases[:5]
+        except:
+            list_clases = cant_clases = clases = None
+
+        context = super(DetalleClases, self).get_context_data(**kwargs)
+
+        context.update(
+            {
+                'Title': 'Contenido de la lección',
+                'tipo_usuario': tipo_usuario,
+                'on_screen': 'contenido_clases',
+
+                'subjects_count': cant_asignaturas,
+                'tasks_count': cant_tareas,
+                'classes_count': cant_clases,
+
+                'tasks_list': list_tareas,
+                'classes_list': list_clases,
+            }
+        )
+
+        return context

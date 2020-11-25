@@ -1,0 +1,64 @@
+{% extends 'Masterpage/site_content.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+    <style>
+        .username{
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <main role="main" class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <img class="mr-3" src="{% static 'assets/brand/formacion.svg' %}" alt="" width="48" height="48">
+    <div class="lh-100">
+      <h6 class="mb-0 text-white lh-100">Mis asignaturas</h6>
+      <small>En este apartado podrás ver todas las asignaturas que tienes matriculadas en Tu Colegio a Distancia.
+      Revisa todo tu contenido de tareas o lecciones en la navegación de este sitio.</small>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Asignaturas inscritas</h6>
+
+      {% for subject in subjects_list %}
+        <div class="media text-muted pt-3">
+            <img src="{% static 'assets/brand/docente.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="titulo_tarea text-gray-dark">{{ subject.nombre }}</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark"><i>Docente: {{ subject.docente }}</i></strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <span class="text-gray-dark titulo_asignatura username"><i>@{{ subject.docente.user }}</i></span>
+            </div>
+            <span class="d-block">
+                {% if subject.docente.contacto %}
+                Número de contacto: {{ subject.docente.contacto }}
+                {% else %}
+                Número de contacto: No disponible de momento.
+                {% endif %}
+            </span>
+            <span class="d-block">
+                {% if subject.docente.contacto %}
+                ¿WhatsApp?: <a target="_blank" href="https://api.whatsapp.com/send?phone=57{{ subject.docente.contacto }}&text=¡Saludos!%20Soy%20{{ user.get_full_name }}%20y%20soy%20estudiante%20de%20*Tu%20Colegio%20a%20Distancia*.%20Quiero%20hablar%20con%20usted.">Disponible</a>
+                {% else %}
+                ¿WhatsApp?: No disponible de momento.
+                {% endif %}
+            </span>
+          </div>
+        </div>
+      {% endfor %}
+
+    <small class="d-block text-right mt-3">
+        <a href="{% url 'aula' %}">Revisar tareas</a> |
+        <a href="{% url 'aula' %}">Ver mis lecciones</a> |
+        <a href="{% url 'aula' %}">Volver al aula</a>
+    </small>
+  </div>
+</main>
+
+{% endblock dashboard %}

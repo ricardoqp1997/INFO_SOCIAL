@@ -16,12 +16,19 @@ Including another URLconf
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import admin
 from django.urls import path
 
 from portal_web import views as portal_views
 from django.contrib.auth import views as auth_views
+from portal_web.views import (
+    ListaClases,
+    ListaTareas,
+    DetalleClases,
+    DetalleTareas
+)
 
 # URLs del portal web
 urlpatterns = [
@@ -40,6 +47,10 @@ urlpatterns = [
     path('main/aula/', portal_views.contenido_estudiante, name='aula'),
     path('main/aula/curso/', portal_views.panel_curso, name='curso'),
     path('main/aula/asignaturas/', portal_views.panel_asignaturas, name='asignaturas'),
+
+    path('main/aula/lecciones', login_required(ListaClases.as_view(), login_url=settings.LOGIN_URL), name='contenido_clases'),
+    path('main/aula/leccion/<int:pk>', login_required(DetalleClases.as_view(), login_url=settings.LOGIN_URL), name='detalle_clase'),
+
     path('main/aula/', portal_views.contenido_estudiante, name='tareas'),
     path('main/aula/', portal_views.contenido_estudiante, name='resolucion_tareas'),
 

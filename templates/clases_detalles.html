@@ -1,0 +1,73 @@
+{% extends 'Masterpage/site_content.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+    <style>
+        .username{
+            margin-bottom: 10px;
+        }
+        .titulo_detalle_tarea{
+            font-size: 20px;
+        }
+        .detalle_detalle_tarea{
+            margin-top: 20px;
+        }
+        .content_tarea{
+            text-align:justify;
+        }
+    </style>
+
+    <main role="main" class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <img class="mr-3" src="{% static 'assets/brand/clase.svg' %}" alt="" width="48" height="48">
+    <div class="lh-100">
+      <h6 class="mb-0 text-white lh-100 titulo_detalle_tarea">{{ clase.titulo }}</h6>
+        <br>
+      <small class="detalle_detalle_tarea">
+          Esta clase fue asignada por el/la docente {{ clase.asignatura.docente }} el día {{ clase.fecha_creacion }}.
+          Sigue atentamente su contenido y recursos compartidos (si los hay) para poder lograr el entendimiento de esta.
+          Recuerda que en el apartado de  <a href="{% url 'asignaturas' %}">asignaturas</a> podrás encontrar información
+          de contacto de tu docente.
+      </small>
+
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Contenido de esta lección</h6>
+
+        <div class="media text-muted pt-3">
+            <img src="{% static 'assets/brand/docente.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="titulo_tarea text-gray-dark">{{ clase.titulo }}</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="text-gray-dark"><i>Docente: {{ clase.asignatura.docente }}</i></strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <span class="text-gray-dark titulo_asignatura username"><i>{{ clase.fecha_creacion }}</i></span>
+            </div>
+            <span class="d-block titulo_asignatura username content_tarea">
+                {{ clase.descripcion }}
+            </span>
+            <span class="d-block">
+                <br>
+                {% if clase.adjuntos %}
+                    <a target="_blank" href="{{ clase.adjuntos.url }}" type="button" class="btn btn-secondary btn-sm">Descargar archivo adjunto</a>
+                {% else %}
+                    Esta lección no posee adjuntos.
+                {% endif %}
+            </span>
+          </div>
+        </div>
+
+    <small class="d-block text-right mt-3">
+        <a href="{% url 'contenido_clases' %}">Volver a tus lecciones</a> |
+        <a href="{% url 'aula' %}">Volver al aula</a>
+    </small>
+  </div>
+</main>
+
+{% endblock dashboard %}

@@ -93,7 +93,7 @@ class TareaAdmin(admin.ModelAdmin):
         (
             None, {
                 'classes': ['wide', 'extrapretty', ],
-                'fields': ['estado', ]
+                'fields': ['fecha_creacion', 'estado', ]
             }
         ),
         (
@@ -118,7 +118,7 @@ class TareaAdmin(admin.ModelAdmin):
         ),
     )
 
-    readonly_fields = ['estado', ]
+    readonly_fields = ['fecha_creacion', 'estado', ]
 
     def get_fieldsets(self, request, obj=None):
         if not obj:
@@ -187,7 +187,7 @@ class ClaseAdmin(admin.ModelAdmin):
             'Luego de eso puede presionar "guardar y continuar editando" o simplemente "guardar" si desea continuar '
             'la edición después.', {
                 'classes': ['wide', 'extrapretty', ],
-                'fields': ['curso',  ]
+                'fields': ['curso', ]
             }
         ),
     )
@@ -196,7 +196,7 @@ class ClaseAdmin(admin.ModelAdmin):
         (
             None, {
                 'classes': ['wide', 'extrapretty', ],
-                'fields': ['estado', ]
+                'fields': ['fecha_creacion', 'estado', ]
             }
         ),
         (
@@ -221,7 +221,7 @@ class ClaseAdmin(admin.ModelAdmin):
         ),
     )
 
-    readonly_fields = ['estado', ]
+    readonly_fields = ['fecha_creacion', 'estado', ]
 
     def get_fieldsets(self, request, obj=None):
         if not obj:

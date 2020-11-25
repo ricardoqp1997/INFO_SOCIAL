@@ -1,0 +1,77 @@
+{% extends 'Masterpage/site_content.html' %}
+{% load static %}
+
+{% block dashboard %}
+
+    <style>
+        .username{
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <main role="main" class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <img class="mr-3" src="{% static 'assets/brand/profesor.svg' %}" alt="" width="48" height="48">
+    <div class="lh-100">
+      <h6 class="mb-0 text-white lh-100">Mis lecciones</h6>
+      <small>Tus profesores tratarán al máximo de colocar conteido en este apartado para que puedas ir estudiando y
+      repasando además de las tareas que publiquen para ti.</small>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Lista de lecciones publicadas para ti</h6>
+
+      {% for class in object_list  %}
+        <div class="media text-muted pt-3">
+            <img src="{% static 'assets/brand/clase.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">
+                {{ class.fecha_creacion.date }}
+                <a href="{% url 'detalle_clase' class.id%}">Revisar</a>
+            </span>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="titulo_tarea text-gray-dark">{{ class.titulo }}</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">
+              <strong class="text-gray-dark"><i>{{ class.asignatura.nombre }}</i></strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <span class="text-gray-dark titulo_asignatura username">
+                  <i>Docente: {{ class.asignatura.docente.user.get_full_name }}</i>
+              </span>
+            </div>
+            <span class="d-block">
+                {{ class.descripcion }}
+            </span>
+          </div>
+        </div>
+      {% endfor %}
+
+      <small class="d-block text-right mt-3 pagination">
+            <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Ant.</a>
+            {% endif %}
+
+            <span class="current">
+                Pág {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Sig.</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </span>
+      </small>
+
+    <small class="d-block text-right mt-3">
+        <a href="{% url 'aula' %}">Revisar tareas</a> |
+        <a href="{% url 'aula' %}">Ver mis lecciones</a> |
+        <a href="{% url 'aula' %}">Volver al aula</a>
+    </small>
+  </div>
+</main>
+
+{% endblock dashboard %}

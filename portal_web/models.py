@@ -153,6 +153,10 @@ class Tarea(models.Model):
         (CALIFICADA, 'Calificada'),
     ]
 
+    fecha_creacion = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Fecha de publicación'
+    )
     estado = models.CharField(
         choices=REGIMEN_CHOICES,
         default='DES',
@@ -177,7 +181,6 @@ class Tarea(models.Model):
         Estudiante,
         verbose_name='Estudiante(s)',
         help_text='Indique el o los estudiantes del curso que requieran hacer esta tarea.',
-
     )
 
     titulo = models.CharField(
@@ -225,6 +228,10 @@ class Clase(models.Model):
         (ACTIVA, 'Clase activa'),
     ]
 
+    fecha_creacion = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Fecha de publicación'
+    )
     estado = models.BooleanField(
         choices=REGIMEN_CHOICES,
         default=False,
