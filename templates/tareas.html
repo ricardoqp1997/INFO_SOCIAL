@@ -7,54 +7,73 @@
         .username{
             margin-bottom: 10px;
         }
+        .content_tarea{
+            text-align:justify;
+        }
     </style>
 
     <main role="main" class="container">
   <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-    <img class="mr-3" src="{% static 'assets/brand/formacion.svg' %}" alt="" width="48" height="48">
+    <img class="mr-3" src="{% static 'assets/brand/tarea_item.svg' %}" alt="" width="48" height="48">
     <div class="lh-100">
-      <h6 class="mb-0 text-white lh-100">Mis asignaturas</h6>
-      <small>En este apartado podrás ver todas las asignaturas que tienes matriculadas en Tu Colegio a Distancia.
-      Revisa todo tu contenido de tareas o lecciones en la navegación de este sitio.</small>
+      <h6 class="mb-0 text-white lh-100">Mis tareas</h6>
+      <small>El proposito tanto de tus docentes como el tuyo es tener un buen rendimiento académico consiguiendo
+          buenas calificaciones en tus tareas y compromisos. <i>Tu Colegio a Distancia</i> te ayudará a acceer a las tareas
+      que tus docentes asignen para que puedas cumplir tus objetivos.</small>
     </div>
   </div>
 
   <div class="my-3 p-3 bg-white rounded shadow-sm">
-    <h6 class="border-bottom border-gray pb-2 mb-0">Asignaturas inscritas</h6>
+    <h6 class="border-bottom border-gray pb-2 mb-0">Tareas asignadas para que desarrolles</h6>
 
-      {% for class in object_list reversed %}
+      {% for tarea in object_list  %}
         <div class="media text-muted pt-3">
-            <img src="{% static 'assets/brand/docente.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+            <img src="{% static 'assets/brand/tarea.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
           <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+              <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username">
+                Estado: {{ tarea.get_estado_display }}
+                  <a href="{% url 'resolucion_tareas' tarea.id %}">Revisar</a>
+              </span>
+            <small class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">
+                {{ tarea.fecha_creacion.date }}
+            </small>
             <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="titulo_tarea text-gray-dark">{{ subject.nombre }}</strong>
+              <strong class="titulo_tarea text-gray-dark">{{ tarea.titulo }}</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">
+              <strong class="text-gray-dark"><i>{{ tarea.asignatura.nombre }}</i></strong>
             </div>
             <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="text-gray-dark"><i>Docente: {{ subject.docente }}</i></strong>
+              <span class="text-gray-dark titulo_asignatura username">
+                  <i>Docente: {{ tarea.asignatura.docente.user.get_full_name }}</i>
+              </span>
             </div>
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <span class="text-gray-dark titulo_asignatura username"><i>@{{ subject.docente.user }}</i></span>
-            </div>
-            <span class="d-block">
-                {% if subject.docente.contacto %}
-                Número de contacto: {{ subject.docente.contacto }}
-                {% else %}
-                Número de contacto: No disponible de momento.
-                {% endif %}
-            </span>
-            <span class="d-block">
-                {% if subject.docente.contacto %}
-                ¿WhatsApp?: <a target="_blank" href="https://api.whatsapp.com/send?phone=57{{ subject.docente.contacto }}&text=¡Saludos!%20Soy%20{{ user.get_full_name }}%20y%20soy%20estudiante%20de%20*Tu%20Colegio%20a%20Distancia*.%20Quiero%20hablar%20con%20usted.">Disponible</a>
-                {% else %}
-                ¿WhatsApp?: No disponible de momento.
-                {% endif %}
+            <span class="d-block content_tarea">
+                {{ tarea.descripcion }}
             </span>
           </div>
         </div>
       {% endfor %}
 
+      <small class="d-block text-right mt-3 pagination">
+            <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Ant.</a>
+            {% endif %}
+
+            <span class="current">
+                Pág {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Sig.</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </span>
+      </small>
+
     <small class="d-block text-right mt-3">
-        <a href="{% url 'aula' %}">Revisar tareas</a> |
         <a href="{% url 'contenido_clases' %}">Ver mis lecciones</a> |
         <a href="{% url 'aula' %}">Volver al aula</a>
     </small>

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import (
     ListView,
     DetailView,
-    UpdateView
+    CreateView
 )
 
 # Módulos de configuracion del proyecto
@@ -25,6 +25,7 @@ from django.contrib.auth.models import Group
 # Módulos de forms.py
 from .forms import (
     UserLoginForm,
+    AssigmentResolution
 )
 
 from .models import *
@@ -246,11 +247,128 @@ def panel_asignaturas(request):
 
 
 class ListaTareas(ListView):
-    pass
+
+    paginate_by = 5
+    model = Tarea
+    template_name = 'tareas.html'
+    queryset = Tarea.objects.all()
+
+    def get_queryset(self):
+        return Tarea.objects.filter(curso__estudiante__user_id=self.request.user.id)
+
+    def get_context_data(self, **kwargs):
+
+        tipo_usuario = Group.objects.get(user=self.request.user).name
+
+        try:
+            asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=self.request.user)
+            cant_asignaturas = asignaturas.count()
+        except:
+            cant_asignaturas = asignaturas = None
+
+        try:
+            tareas = Tarea.objects.filter(
+                estudiante__user_id=self.request.user.id,
+                estado=Tarea.ENVIADA
+            )
+            cant_tareas = tareas.count()
+            list_tareas = tareas[:5]
+        except:
+            list_tareas = cant_tareas = tareas = None
+
+        try:
+            clases = Clase.objects.filter(
+                estudiante__user_id=self.request.user.id
+            )
+            cant_clases = clases.count()
+            list_clases = clases[:5]
+        except:
+            list_clases = cant_clases = clases = None
+
+        context = super(ListaTareas, self).get_context_data(**kwargs)
+
+        context.update(
+            {
+                'Title': 'Mis tareas',
+                'tipo_usuario': tipo_usuario,
+                'on_screen': 'tareas_pendientes',
+
+                'subjects_count': cant_asignaturas,
+                'tasks_count': cant_tareas,
+                'classes_count': cant_clases,
+
+                'tasks_list': list_tareas,
+                'classes_list': list_clases,
+            }
+        )
+
+        return context
 
 
-class DetalleTareas(ListView):
-    pass
+class DetalleTareas(CreateView):
+
+    model = SolucionTarea
+    queryset = SolucionTarea.objects.all()
+    template_name = 'tareas_detalles.html'
+    form_class = AssigmentResolution
+
+    def form_valid(self, form):
+
+        form.instance.estudiante.user_id = self.request.user.id
+        form.instance.tarea.id = self.kwargs.get('assigment_pk')
+
+        return super(DetalleTareas, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+
+        tipo_usuario = Group.objects.get(user=self.request.user).name
+
+        assigment = Tarea.objects.get(id=self.kwargs.get('assigment_pk'))
+        student_assigment = Estudiante.objects.get(user_id=self.request.user)
+
+        try:
+            asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=self.request.user)
+            cant_asignaturas = asignaturas.count()
+        except:
+            cant_asignaturas = asignaturas = None
+
+        try:
+            tareas = Tarea.objects.filter(
+                estudiante__user_id=self.request.user.id,
+                estado=Tarea.ENVIADA
+            )
+            cant_tareas = tareas.count()
+            list_tareas = tareas[:5]
+        except:
+            list_tareas = cant_tareas = tareas = None
+
+        try:
+            clases = Clase.objects.filter(
+                estudiante__user_id=self.request.user.id
+            )
+            cant_clases = clases.count()
+            list_clases = clases[:5]
+        except:
+            list_clases = cant_clases = clases = None
+
+        context = super(DetalleTareas, self).get_context_data(**kwargs)
+
+        context.update(
+            {
+                'Title': 'Tarea: ' + assigment.titulo,
+                'tipo_usuario': tipo_usuario,
+                'on_screen': 'tareas_pendientes',
+
+                'subjects_count': cant_asignaturas,
+                'tasks_count': cant_tareas,
+                'classes_count': cant_clases,
+
+                'task_content': assigment,
+                'task_student': student_assigment,
+            }
+        )
+
+        return context
 
 
 class ListaClases(ListView):

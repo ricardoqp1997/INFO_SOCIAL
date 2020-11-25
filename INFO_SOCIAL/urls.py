@@ -51,8 +51,8 @@ urlpatterns = [
     path('main/aula/lecciones', login_required(ListaClases.as_view(), login_url=settings.LOGIN_URL), name='contenido_clases'),
     path('main/aula/leccion/<int:pk>', login_required(DetalleClases.as_view(), login_url=settings.LOGIN_URL), name='detalle_clase'),
 
-    path('main/aula/', portal_views.contenido_estudiante, name='tareas'),
-    path('main/aula/', portal_views.contenido_estudiante, name='resolucion_tareas'),
+    path('main/aula/tareas', login_required(ListaTareas.as_view(), login_url=settings.LOGIN_URL), name='tareas_pendientes'),
+    path('main/aula/tarea/<int:assigment_pk>', login_required(DetalleTareas.as_view(), login_url=settings.LOGIN_URL), name='resolucion_tareas'),
 
     path('main/docencia/', portal_views.contenido_docente, name='docencia'),
     path('main/noticias/', portal_views.main, name='noticias'),

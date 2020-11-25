@@ -106,7 +106,7 @@
       Asignaturas
       {% if subjects_count %}<span class="badge badge-pill bg-light align-text-bottom">{{ subjects_count }}</span>{% endif %}
     </a>
-    <a class="nav-link {% if on_screen == 'tareas_pendientes' %} active {% endif %}" href="#">
+    <a class="nav-link {% if on_screen == 'tareas_pendientes' %} active {% endif %}" href="{% url 'tareas_pendientes' %}">
         Mis tareas
         {% if tasks_count %}<span class="badge badge-pill bg-light align-text-bottom">{{ tasks_count }}</span>{% endif %}
     </a>

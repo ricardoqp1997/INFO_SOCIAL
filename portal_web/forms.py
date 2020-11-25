@@ -6,7 +6,6 @@ from .models import *
 
 # Form de inicio de sesión para usuarios
 class UserLoginForm(forms.Form):
-
     username = forms.CharField(
         label='Usuario',
         widget=forms.TextInput(
@@ -49,5 +48,25 @@ class UserLoginForm(forms.Form):
 
 
 class AssigmentForm(forms.ModelForm):
-
     pass
+
+
+class AssigmentResolution(forms.ModelForm):
+
+    estudiante = forms.IntegerField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+    tarea = forms.IntegerField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+
+    class Meta:
+        model = SolucionTarea
+        fields = [
+            'estudiante',
+            'tarea',
+            'anotaciones',
+            'adjuntos',
+        ]

@@ -148,7 +148,7 @@ class Tarea(models.Model):
 
     REGIMEN_CHOICES = [
         (EN_DESARROLLO, 'En desarrollo'),
-        (ENVIADA, 'Enviada'),
+        (ENVIADA, 'Enviada y asignada'),
         (REALIZADA, 'Realizada'),
         (CALIFICADA, 'Calificada'),
     ]
@@ -291,3 +291,32 @@ class Clase(models.Model):
             return str(self.curso.get_grado_display()) + ' - Clase sin especificar'
         else:
             return str(self.curso.get_grado_display()) + ' - ' + self.titulo
+
+
+class SolucionTarea(models.Model):
+
+    estudiante = models.OneToOneField(
+        Estudiante,
+        verbose_name='Estudiante que desarrolla la tarea',
+        help_text='Corresponde al usuario que desarrolla, desarrolló, o desarrollará la taréa correspondiente',
+        on_delete=models.CASCADE,
+    )
+    tarea = models.ForeignKey(
+        Tarea,
+        verbose_name='Tarea Desarrollada',
+        on_delete=models.CASCADE
+    )
+
+    anotaciones = models.TextField(
+        verbose_name='Resolución o comentarios',
+        help_text='En este apartado irán las respuestas (si así se requieren) o comentarios adicionales respecto'
+                  'a la entrega de la tarea. Recuerde que la prioridad de solución de la tarea es por medio de '
+                  'archivos adjuntos.',
+        max_length=500,
+        null=True,
+    )
+    adjuntos = models.FileField(
+        verbose_name='Archivo adjunto de tarea',
+        help_text='Es requerido subir la solución a la tarea por medio de un archivo adjunto.',
+        upload_to='solucion_tareas/',
+    )

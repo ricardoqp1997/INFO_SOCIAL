@@ -7,6 +7,9 @@
         .username{
             margin-bottom: 10px;
         }
+        .content_tarea{
+            text-align:justify;
+        }
     </style>
 
     <main role="main" class="container">
@@ -20,7 +23,7 @@
   </div>
 
   <div class="my-3 p-3 bg-white rounded shadow-sm">
-    <h6 class="border-bottom border-gray pb-2 mb-0">Lista de lecciones publicadas para ti</h6>
+    <h6 class="border-bottom border-gray pb-2 mb-0">Lista de lecciones publicadas para ti </h6>
 
       {% for class in object_list  %}
         <div class="media text-muted pt-3">
@@ -41,7 +44,7 @@
                   <i>Docente: {{ class.asignatura.docente.user.get_full_name }}</i>
               </span>
             </div>
-            <span class="d-block">
+            <span class="d-block content_tarea">
                 {{ class.descripcion }}
             </span>
           </div>
@@ -67,8 +70,7 @@
       </small>
 
     <small class="d-block text-right mt-3">
-        <a href="{% url 'aula' %}">Revisar tareas</a> |
-        <a href="{% url 'aula' %}">Ver mis lecciones</a> |
+        <a href="{% url 'tareas_pendientes' %}">Revisar tareas</a> |
         <a href="{% url 'aula' %}">Volver al aula</a>
     </small>
   </div>
