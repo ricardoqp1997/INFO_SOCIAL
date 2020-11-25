@@ -106,6 +106,7 @@
             <p><a class="btn btn-secondary" href="{% url 'noticias' %}" role="button">Leer mas &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
 
+            {% if tipo_usuario == 'Estudiantes' %}
             <div class="col-lg-4">
             <img src="{% static '/assets/brand/ayuda.svg' %}" alt="..." width="150" height="150" style="margin-bottom: 5%">
               <h2>Pide asistencia académica</h2>
@@ -114,6 +115,7 @@
             Podrás contactar con ellos por medio de teléfono e inclusive WhatsApp.</p>
             <p><a class="btn btn-secondary" href="{% url 'asignaturas' %}" role="button">Soporte académico &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
+            {% endif %}
 
         {% if tipo_usuario == 'Administradores' %}
             <div class="col-lg-4">
