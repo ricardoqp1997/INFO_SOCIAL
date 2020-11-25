@@ -66,10 +66,11 @@
               <li class="nav-item">
               <a class="nav-link" href="{% url 'noticias' %}">Novedades del colegio</a>
               </li>
-              <li class="nav-item">
-              <a class="nav-link" href="{% url 'asignaturas' %}">¿Necesitas asistencia de tus docentes?</a>
-              </li>
-
+              {% if tipo_usuario == 'Estudiantes' %}
+                  <li class="nav-item">
+                  <a class="nav-link" href="{% url 'asignaturas' %}">¿Necesitas asistencia de tus docentes?</a>
+                  </li>
+              {% endif %}
               <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
               </li>
