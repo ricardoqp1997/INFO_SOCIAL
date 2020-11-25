@@ -61,6 +61,29 @@ class AssigmentResolution(forms.ModelForm):
         widget=forms.HiddenInput(),
         required=False
     )
+    anotaciones = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control'
+            }
+        ),
+        label='Resolución o comentarios',
+        help_text='En este apartado irán las respuestas (si así se requieren) o comentarios adicionales respecto'
+                  'a la entrega de la tarea. Recuerde que la prioridad de solución de la tarea es por medio de '
+                  'archivos adjuntos.',
+        max_length=400,
+        required=True
+    )
+    adjuntos = forms.FileField(
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control-file'
+            }
+        ),
+        label='Archivo adjunto de tarea',
+        help_text='Es requerido subir la solución a la tarea por medio de un archivo adjunto.',
+        required=True
+    )
 
     class Meta:
         model = SolucionTarea

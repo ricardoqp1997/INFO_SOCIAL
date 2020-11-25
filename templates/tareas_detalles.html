@@ -55,49 +55,57 @@
 
   <div class="my-3 p-3 bg-white rounded shadow-sm">
     <h6 class="border-bottom border-gray pb-2 mb-0">Desarrollo de la tarea</h6>
+        <form action="" method="POST" enctype="multipart/form-data">
 
-        <div class="media text-muted pt-3">
-            <img src="{% static 'assets/brand/lapiz.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+            {% csrf_token %}
 
-          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div class="media text-muted pt-3 form-group">
+                <img src="{% static 'assets/brand/lapiz.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
 
-            <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">
-                <i>Resolviendo tarea como: @{{ task_student.user }}</i>
-            </span>
+              <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
 
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="titulo_tarea text-gray-dark username">{{ form.anotaciones.label }}</strong>
-            </div>
-            <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
-                {{ form.anotaciones.help_text }}
-            </span>
-            <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
-              {{ form.anotaciones }}
-            </div>
+                <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">
+                    <i>Resolviendo tarea como: @{{ task_student.user }}</i>
+                </span>
 
-            <br>
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <strong class="titulo_tarea text-gray-dark username">{{ form.adjuntos.label }}</strong>
-            </div>
-            <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea file-upload">
-                {{ form.adjuntos.help_text }}
-            </span>
-            <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
-              {{ form.adjuntos }}
-            </div>
+                <div class="d-flex justify-content-between align-items-center w-100">
+                  <strong class="titulo_tarea text-gray-dark username">{{ form.anotaciones.label }}</strong>
+                </div>
+                <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
+                    {{ form.anotaciones.help_text }}
+                </span>
+                <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
+                  {{ form.anotaciones }}
+                </div>
 
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <span class="text-gray-dark titulo_asignatura username"><i>{{ clase.fecha_creacion }}</i></span>
-            </div>
-            <span class="d-block titulo_asignatura username content_tarea">
-                {{ clase.descripcion }}
-            </span>
-            <span class="d-block">
                 <br>
-                Recuerda que al enviar tu tarea, esta se pondrá pendiente de revisión y no se podrá modificar.
-            </span>
-          </div>
-        </div>
+                <div class="d-flex justify-content-between align-items-center w-100">
+                  <strong class="titulo_tarea text-gray-dark username">{{ form.adjuntos.label }}</strong>
+                </div>
+                <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea file-upload">
+                    {{ form.adjuntos.help_text }}
+                </span>
+                <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
+                  {{ form.adjuntos }}
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center w-100">
+                  <span class="text-gray-dark titulo_asignatura username"><i>{{ clase.fecha_creacion }}</i></span>
+                </div>
+                <span class="d-block titulo_asignatura username content_tarea">
+                    {{ clase.descripcion }}
+                </span>
+
+                <hr>
+                <button class="btn btn-dark btn-sm" type="submit" value="submit">Enviar tarea</button>
+                <span class="d-block">
+
+                    <br>
+                    Recuerda que al enviar tu tarea, esta se pondrá pendiente de revisión y no se podrá modificar.
+                </span>
+              </div>
+            </div>
+        </form>
 
     <small class="d-block text-right mt-3">
         <a href="{% url 'tareas_pendientes' %}">Volver a tus tareas</a> |
