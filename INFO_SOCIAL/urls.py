@@ -36,6 +36,10 @@ from portal_web.views import (
     ResolverTareas
 )
 
+admin.site.site_header = "Tu Colegio a Distancia"
+admin.site.site_title = "Tu Colegio a Distancia"
+admin.site.index_title = "Bienvenido al portal administrativo"
+
 # URLs del portal web
 urlpatterns = [
 
