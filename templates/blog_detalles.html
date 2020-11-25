@@ -1,0 +1,64 @@
+{% extends 'Masterpage/index.html' %}
+{% load static %}
+
+{% block content_main %}
+
+    <style>
+        .img_contenido{
+            width: 100%;
+        }
+        .content_tarea{
+            text-align:justify;
+        }
+        .content_add_tarea{
+            margin-top: 15px;
+            text-align:justify;
+        }
+    </style>
+
+    <div class="container marketing header_of_pages">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+
+
+         <div class="col-lg-4">
+             <div class="card mb-3">
+                 <div class="card-header">
+                    <h5 class="card-title"><strong>{{ blogcolegio.titulo }}</strong></h5>
+                  </div>
+              <img class="card-img-top" src="{{ blogcolegio.portada.url }}" alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text"><span class="text-muted">{{ blogcolegio.fecha_publicacion }}</span></p>
+                <p class="card-text"><span class="text-muted"><i><strong>@{{ blogcolegio.autor }}</strong></i></span></p>
+                <p class="card-text content_tarea">{{ blogcolegio.contenido }}</p>
+                {% if blogcolegio.imagen_contenido %}
+                    <img class="img_contenido" src="{{ blogcolegio.imagen_contenido.url }}" alt="Card image cap">
+                {% endif %}
+                {% if blogcolegio.contenido_add %}
+                    <p class="card-text content_add_tarea">{{ blogcolegio.contenido_add }}</p>
+                {% endif %}
+                {% if blogcolegio.youtube_link %}
+                    <iframe width="100%" height="315" src="{{ blogcolegio.youtube_link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {% endif %}
+
+              </div>
+            </div>
+         </div>
+
+
+         <div class="col-lg-4">
+            <span class="pagination">
+
+                <span class="current">
+                    <a href="{% url 'noticias' %}" class="card-link">Volver a las noticias</a>
+                </span>
+            </span>
+        </span>
+         </div>
+
+
+
+    </div><!-- /.row -->
+
+{% endblock %}

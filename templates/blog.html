@@ -1,0 +1,63 @@
+{% extends 'Masterpage/index.html' %}
+{% load static %}
+
+{% block content_main %}
+
+    <div class="container marketing header_of_pages">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row">
+
+
+
+
+          <div class="col-lg-4">
+           <div class="card bg-dark text-white">
+              <img class="card-img" src="{% static 'multimedia/colegio2_cut.jpg' %}" alt="Card image">
+              <div class="card-img-overlay">
+                <h5 class="card-title"><strong>Novedades académicas en la institución</strong></h5>
+                <p class="card-text">Dentro de este apartado podrás encontrar las últiamas novedades respecto a la
+                institución. </p>
+              </div>
+           </div>
+         </div><!-- /.col-lg-4 -->
+
+         {% for post in object_list %}
+         <div class="col-lg-4">
+             <div class="card mb-3">
+              <img class="card-img-top" src="{{ post.portada.url }}" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title"><strong>{{ post.titulo }}</strong></h5>
+                <p class="card-text">{{ post.contenido | truncatechars:150 }}</p>
+                <p class="card-text"><span class="text-muted">{{ post.fecha_publicacion }}</span></p>
+                <a href="{% url 'noticia' post.id %}" class="card-link">Leer mas</a>
+              </div>
+            </div>
+         </div>
+         {% endfor %}
+
+         <div class="col-lg-4">
+            <span class="pagination">
+                <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; Primera</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Ant.</a>
+                {% endif %}
+
+                <span class="current">
+                    Pág {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Sig.</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+                {% endif %}
+            </span>
+        </span>
+         </div>
+
+
+
+    </div><!-- /.row -->
+
+{% endblock %}

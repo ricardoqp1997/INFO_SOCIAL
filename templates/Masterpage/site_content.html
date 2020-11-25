@@ -79,7 +79,7 @@
               <a class="nav-link" href="{% url 'noticias' %}">Novedades del colegio</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" href="{% url 'soporte' %}">¿Necesitas ayuda?</a>
+              <a class="nav-link" href="{% url 'asignaturas' %}">¿Necesitas asistencia de tus docentes?</a>
               </li>
 
               <li class="nav-item">
@@ -103,7 +103,7 @@
     <a class="nav-link {% if on_screen == 'tablero' %} active {% endif %}" href="{% url 'aula' %}">Tablero inicial</a>
     <a class="nav-link {% if on_screen == 'curso' %} active {% endif %}" href="{% url 'curso' %}">Curso</a>
     <a class="nav-link {% if on_screen == 'asignaturas' %} active {% endif %}" href="{% url 'asignaturas' %}">
-      Asignaturas
+      Docentes
       {% if subjects_count %}<span class="badge badge-pill bg-light align-text-bottom">{{ subjects_count }}</span>{% endif %}
     </a>
     <a class="nav-link {% if on_screen == 'tareas_pendientes' %} active {% endif %}" href="{% url 'tareas_pendientes' %}">

@@ -21,6 +21,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import admin
 from django.urls import path
 
+from blog_colegio.views import (
+    BlogList,
+    BlogDetail
+)
+
 from portal_web import views as portal_views
 from django.contrib.auth import views as auth_views
 from portal_web.views import (
@@ -47,18 +52,23 @@ urlpatterns = [
     # Accesos principales al sitio
     path('main/aula/', portal_views.contenido_estudiante, name='aula'),
     path('main/aula/curso/', portal_views.panel_curso, name='curso'),
-    path('main/aula/asignaturas/', portal_views.panel_asignaturas, name='asignaturas'),
+    path('main/aula/contacto-y-soporte/', portal_views.panel_asignaturas, name='asignaturas'),
 
+    # Clases
     path('main/aula/lecciones', login_required(ListaClases.as_view(), login_url=settings.LOGIN_URL), name='contenido_clases'),
     path('main/aula/leccion/<int:pk>', login_required(DetalleClases.as_view(), login_url=settings.LOGIN_URL), name='detalle_clase'),
 
+    # Tareas
     path('main/aula/tareas', login_required(ListaTareas.as_view(), login_url=settings.LOGIN_URL), name='tareas_pendientes'),
     path('main/aula/tarea/<int:assigment_pk>', login_required(ResolverTareas.as_view(), login_url=settings.LOGIN_URL), name='resolucion_tareas'),
     path('main/aula/tarea-resuelta/<int:pk>', login_required(DetalleTareas.as_view(), login_url=settings.LOGIN_URL), name='vista_tareas_resueltas'),
 
+    # Redireccionamiento de docentes
     path('main/docencia/', portal_views.contenido_docente, name='docencia'),
-    path('main/noticias/', portal_views.main, name='noticias'),
-    path('main/soporte/', portal_views.main, name='soporte'),
+
+    # Blog
+    path('main/noticias/', login_required(BlogList.as_view(), login_url=settings.LOGIN_URL), name='noticias'),
+    path('main/noticias/<int:pk>', login_required(BlogDetail.as_view(), login_url=settings.LOGIN_URL), name='noticia'),
 
     # Acceso al panel administrativo
     path('admin-redirect/', portal_views.redirect_admin, name='administrador'),

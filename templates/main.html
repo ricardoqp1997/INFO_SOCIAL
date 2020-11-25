@@ -35,7 +35,7 @@
       </div>
       <div class="carousel-item">
           <img src="{% static '/multimedia/colegio2.jpg' %}" class="d-block w-100" alt="...">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"/></svg>
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"></rect></svg>
         <div class="container">
           <div class="carousel-caption">
             <h1>Últimas noticias.</h1>
@@ -46,14 +46,15 @@
         </div>
       </div>
       <div class="carousel-item">
-          <img src="{% static '/multimedia/colegio2.jpg' %}" class="d-block w-100" alt="...">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"/></svg>
+          <img src="{% static '/multimedia/colegio3.jpg' %}" class="d-block w-100" alt="...">
+        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#777"></rect></svg>
         <div class="container">
           <div class="carousel-caption text-right">
-            <h1>Soporte y ayuda.</h1>
-            <p>¿Tienes problemas con este sitio? ¿O talvez con otros aspectos con el estudio a distancia o la
-            institución? Accede para recibir asistencia de acuerdo a lo que necesites.</p>
-            <p><a class="btn btn-lg btn-light" href="{% url 'soporte' %}" role="button">Acceder</a></p>
+            <h1>Asistencia académica.</h1>
+            <p>¿Tienes problemas con tus tareas o lecciones? ¿O talvez con otros aspectos con el estudio a distancia o la
+            institución? Accede para recibir asistencia directa desde tus docentes, de acuerdo a lo que necesites. Sea
+            por teléfono o WhatsApp.</p>
+            <p><a class="btn btn-lg btn-light" href="{% url 'asignaturas' %}" role="button">Acceder</a></p>
           </div>
         </div>
       </div>
@@ -107,10 +108,11 @@
 
             <div class="col-lg-4">
             <img src="{% static '/assets/brand/ayuda.svg' %}" alt="..." width="150" height="150" style="margin-bottom: 5%">
-              <h2>Pide ayuda con tus inconvenientes</h2>
-            <p>¿Tienes problemas con este sitio? ¿O talvez con otros aspectos con el estudio a distancia o la
-                institución? Accede para recibir asistencia de acuerdo a lo que necesites.</p>
-            <p><a class="btn btn-secondary" href="{% url 'soporte' %}" role="button">Soporte &raquo;</a></p>
+              <h2>Pide asistencia académica</h2>
+            <p>¿Tienes problemas con tus tareas o lecciones? ¿O talvez con otros aspectos con el estudio a distancia o la
+            institución? Accede para recibir asistencia directa desde tus docentes, de acuerdo a lo que necesites.
+            Podrás contactar con ellos por medio de teléfono e inclusive WhatsApp.</p>
+            <p><a class="btn btn-secondary" href="{% url 'asignaturas' %}" role="button">Soporte académico &raquo;</a></p>
           </div><!-- /.col-lg-4 -->
 
         {% if tipo_usuario == 'Administradores' %}
