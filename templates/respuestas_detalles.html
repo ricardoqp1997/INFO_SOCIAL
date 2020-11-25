@@ -1,0 +1,113 @@
+{% extends 'Masterpage/site_content.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block dashboard %}
+
+    <style>
+        .username{
+            margin-bottom: 10px;
+        }
+        .titulo_detalle_tarea{
+            font-size: 20px;
+        }
+        .detalle_detalle_tarea{
+            margin-top: 20px;
+        }
+        .content_tarea{
+            text-align:justify;
+        }
+        .file-upload{
+            color: #a71d2a;
+        }
+        .color-content-tarea{
+            color: #1b1e21;
+        }
+
+    </style>
+
+    <main role="main" class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm content_tarea">
+    <img class="mr-3" src="{% static 'assets/brand/tarea.svg' %}" alt="" width="48" height="48">
+    <div class="lh-100">
+      <h6 class="mb-0 text-white lh-100 titulo_detalle_tarea">{{ soluciontarea.tarea.titulo }}</h6>
+      <br>
+      <small class="detalle_detalle_tarea">
+          {{ soluciontarea.tarea.descripcion }}
+      </small>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-light rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Adjuntos</h6>
+    <div class="media text-muted pt-3">
+        <img src="{% static 'assets/brand/portapapeles.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+         <div class="d-flex justify-content-between align-items-center w-100">
+             {% if soluciontarea.tarea.adjuntos %}
+                <a target="_blank" href="{{ soluciontarea.tarea.adjuntos.url }}" type="button" class="btn btn-secondary btn-sm">Descargar soporte adjunto</a>
+             {% else %}
+                <strong class="titulo_tarea text-gray-dark username">Esta tarea no tiene adjuntos</strong>
+             {% endif %}
+            </div>
+        </div>
+  </div>
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">Solución de la tarea</h6>
+
+        <div class="media text-muted pt-3 form-group">
+            <img src="{% static 'assets/brand/lapiz.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
+
+          <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+
+            <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">
+                <i><small>Tarea resuelta como: @{{ soluciontarea.estudiante }}</small></i>
+            </span>
+
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="titulo_tarea text-gray-dark username">Resolución o comentarios</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
+              <i>{{ soluciontarea.anotaciones.capitalize }}</i>
+            </div>
+
+            <br>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <strong class="titulo_tarea text-gray-dark username">Archivo adjunto de tarea</strong>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username content_tarea">
+              <a target="_blank" href="{{ soluciontarea.adjuntos.url }}" type="button" class="btn btn-secondary btn-sm">Descargar solución adjunta</a>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <span class="text-gray-dark titulo_asignatura username"><i>{{ clase.fecha_creacion }}</i></span>
+            </div>
+            <span class="d-block titulo_asignatura username content_tarea">
+                {{ clase.descripcion }}
+            </span>
+
+            <hr>
+            <span class="d-block username">
+                <br>
+                Estado de la tarea realizada: {{ soluciontarea.get_estado_display }}
+            </span>
+            <span class="d-block">
+                {% if soluciontarea.revision %}
+                    Calificación: {{ soluciontarea.revision }}
+                {% else %}
+                    Calificación: No disponible aún.
+                {% endif %}
+            </span>
+          </div>
+        </div>
+
+    <small class="d-block text-right mt-3">
+        <a href="{% url 'tareas_pendientes' %}">Volver a tus tareas</a> |
+        <a href="{% url 'aula' %}">Volver al aula</a>
+    </small>
+  </div>
+</main>
+
+{% endblock dashboard %}

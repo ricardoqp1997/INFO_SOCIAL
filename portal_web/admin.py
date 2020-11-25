@@ -286,9 +286,82 @@ class ClaseAdmin(admin.ModelAdmin):
     get_datos_adjuntos_validate.boolean = True
 
 
+class SolucionTareaAdmin(admin.ModelAdmin):
+
+    list_display = ['get_nombre_solucion', 'fecha_creacion', 'get_estudiante', 'get_estudiante_grado', 'get_estudiante_asignatura', 'get_estado', ]
+    list_filter = ['tarea__asignatura__docente', 'tarea__estudiante', 'tarea__curso', 'tarea__asignatura', ]
+
+    fieldsets = (
+        (
+            (
+                None, {
+                    'classes': ['wide', 'extrapretty', ],
+                    'fields': ['fecha_creacion', 'estado', ]
+                }
+            ),
+            (
+                'Información del desarrollo de esta tarea.', {
+                    'classes': ['wide', 'extrapretty', ],
+                    'fields': ['estudiante', 'tarea', ]
+                }
+            ),
+            (
+                'Contenido de la solución entregada por el estudiante', {
+                    'classes': ['wide', 'extrapretty', ],
+                    'fields': ['anotaciones', 'adjuntos', ]
+                }
+            ),
+            (
+                'Evaluación de la tarea', {
+                    'classes': ['wide', 'extrapretty', ],
+                    'fields': ['revision', ]
+                }
+            ),
+
+        )
+    )
+
+    readonly_fields = ['fecha_creacion', 'estado', 'estudiante', 'tarea', 'anotaciones', 'adjuntos', ]
+
+    def save_model(self, request, obj, form, change):
+        if obj.revision is not None:
+            obj.estado = SolucionTarea.REVISADA
+        return super(SolucionTareaAdmin, self).save_model(request, obj, form, change)
+
+    def get_nombre_solucion(self, obj):
+        return obj.__str__()
+
+    get_nombre_solucion.short_description = 'Tarea trabajada'
+
+    def get_estudiante(self, obj):
+        return obj.estudiante.user.get_full_name()
+
+    get_estudiante.short_description = 'Nombre del estudiante'
+
+    def get_estudiante_grado(self, obj):
+        return obj.estudiante.curso.get_grado_display()
+
+    get_estudiante_grado.short_description = 'Grado'
+
+    def get_estudiante_asignatura(self, obj):
+        return obj.tarea.asignatura.nombre
+
+    get_estudiante_asignatura.short_description = 'Asignatura'
+
+    def get_estado(self, obj):
+        if obj.estado == SolucionTarea.REVISADA:
+            return True
+        else:
+            return False
+
+    get_estado.short_description = 'Estado de revisión'
+    get_estado.boolean = True
+
+
 admin.site.register(Curso, CursoAdmin)
 admin.site.register(Docente, DocenteAdmin)
 admin.site.register(Asignatura, AsignaturaAdmin)
 admin.site.register(Estudiante, EstudianteAdmin)
 admin.site.register(Tarea, TareaAdmin)
 admin.site.register(Clase, ClaseAdmin)
+admin.site.register(SolucionTarea, SolucionTareaAdmin)

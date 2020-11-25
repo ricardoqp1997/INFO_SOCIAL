@@ -53,6 +53,10 @@ class AssigmentForm(forms.ModelForm):
 
 class AssigmentResolution(forms.ModelForm):
 
+    estado = forms.CharField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
     estudiante = forms.IntegerField(
         widget=forms.HiddenInput(),
         required=False

@@ -1,5 +1,5 @@
 # Librerías de Django para el manejo de las vistas, plantillas y navegación
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -305,7 +305,7 @@ class ListaTareas(ListView):
         return context
 
 
-class DetalleTareas(CreateView):
+class ResolverTareas(CreateView):
 
     model = SolucionTarea
     queryset = SolucionTarea.objects.all()
@@ -314,10 +314,14 @@ class DetalleTareas(CreateView):
 
     def form_valid(self, form):
 
-        form.instance.estudiante.user_id = self.request.user.id
-        form.instance.tarea.id = self.kwargs.get('assigment_pk')
+        form.instance.estudiante = Estudiante.objects.get(user_id=self.request.user)
+        form.instance.tarea = Tarea.objects.get(id=self.kwargs.get('assigment_pk'))
+        form.instance.estado = SolucionTarea.ENVIADA
 
-        return super(DetalleTareas, self).form_valid(form)
+        return super(ResolverTareas, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('vista_tareas_resueltas', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
 
@@ -351,7 +355,7 @@ class DetalleTareas(CreateView):
         except:
             list_clases = cant_clases = clases = None
 
-        context = super(DetalleTareas, self).get_context_data(**kwargs)
+        context = super(ResolverTareas, self).get_context_data(**kwargs)
 
         context.update(
             {
@@ -365,6 +369,71 @@ class DetalleTareas(CreateView):
 
                 'task_content': assigment,
                 'task_student': student_assigment,
+            }
+        )
+
+        return context
+
+    def get(self, request, *args, **kwargs):
+
+        try:
+            tarea = Tarea.objects.get(id=self.kwargs.get('assigment_pk'), estudiante__user_id=self.request.user.id)
+            solucion = SolucionTarea.objects.get(tarea=tarea)
+            if tarea == solucion.tarea:
+                return redirect('vista_tareas_resueltas', pk=solucion.pk)
+        except:
+            self.object = None
+            return super().get(request, *args, **kwargs)
+
+
+class DetalleTareas(DetailView):
+
+    model = SolucionTarea
+    template_name = 'respuestas_detalles.html'
+
+    def get_context_data(self, **kwargs):
+
+        tipo_usuario = Group.objects.get(user=self.request.user).name
+
+        try:
+            asignaturas = Asignatura.objects.filter(curso__estudiante__user_id=self.request.user)
+            cant_asignaturas = asignaturas.count()
+        except:
+            cant_asignaturas = asignaturas = None
+
+        try:
+            tareas = Tarea.objects.filter(
+                estudiante__user_id=self.request.user.id,
+                estado=Tarea.ENVIADA
+            )
+            cant_tareas = tareas.count()
+            list_tareas = tareas[:5]
+        except:
+            list_tareas = cant_tareas = tareas = None
+
+        try:
+            clases = Clase.objects.filter(
+                estudiante__user_id=self.request.user.id
+            )
+            cant_clases = clases.count()
+            list_clases = clases[:5]
+        except:
+            list_clases = cant_clases = clases = None
+
+        context = super(DetalleTareas, self).get_context_data(**kwargs)
+
+        context.update(
+            {
+                'Title': 'Contenido de la lección',
+                'tipo_usuario': tipo_usuario,
+                'on_screen': 'contenido_clases',
+
+                'subjects_count': cant_asignaturas,
+                'tasks_count': cant_tareas,
+                'classes_count': cant_clases,
+
+                'tasks_list': list_tareas,
+                'classes_list': list_clases,
             }
         )
 

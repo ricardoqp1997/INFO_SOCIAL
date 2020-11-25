@@ -31,7 +31,7 @@
             <img src="{% static 'assets/brand/tarea.svg' %}" width="32" height="32" alt="" style="margin-right: 10px">
           <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
               <span class="d-flex justify-content-between align-items-center w-100 titulo_asignatura username">
-                Estado: {{ tarea.get_estado_display }}
+                   Estado: {{ tarea.get_estado_display }}
                   <a href="{% url 'resolucion_tareas' tarea.id %}">Revisar</a>
               </span>
             <small class="d-flex justify-content-between align-items-center w-100 titulo_asignatura">

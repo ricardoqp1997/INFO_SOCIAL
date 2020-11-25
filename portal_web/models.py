@@ -143,14 +143,10 @@ class Tarea(models.Model):
 
     EN_DESARROLLO = 'DES'
     ENVIADA = 'ENV'
-    REALIZADA = 'REA'
-    CALIFICADA = 'CLF'
 
     REGIMEN_CHOICES = [
         (EN_DESARROLLO, 'En desarrollo'),
         (ENVIADA, 'Enviada y asignada'),
-        (REALIZADA, 'Realizada'),
-        (CALIFICADA, 'Calificada'),
     ]
 
     fecha_creacion = models.DateTimeField(
@@ -295,7 +291,27 @@ class Clase(models.Model):
 
 class SolucionTarea(models.Model):
 
-    estudiante = models.OneToOneField(
+    SIN_REVISAR = 'SINREV'
+    ENVIADA = 'ENVIAD'
+    REVISADA = 'REVISD'
+
+    REGIMEN_CHOICES = [
+        (SIN_REVISAR, 'Tarea sin revisar'),
+        (ENVIADA, 'Tarea enviada'),
+        (REVISADA, 'Tarea calificada')
+    ]
+
+    fecha_creacion = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Fecha de resolución'
+    )
+    estado = models.CharField(
+        choices=REGIMEN_CHOICES,
+        default=SIN_REVISAR,
+        max_length=6,
+        verbose_name='Estado de resolución de la tarea',
+    )
+    estudiante = models.ForeignKey(
         Estudiante,
         verbose_name='Estudiante que desarrolla la tarea',
         help_text='Corresponde al usuario que desarrolla, desarrolló, o desarrollará la taréa correspondiente',
@@ -320,3 +336,17 @@ class SolucionTarea(models.Model):
         help_text='Es requerido subir la solución a la tarea por medio de un archivo adjunto.',
         upload_to='solucion_tareas/',
     )
+
+    revision = models.CharField(
+        verbose_name='Revisión de la tarea',
+        help_text='Calificación final de la tarea resuelta',
+        max_length=5,
+        null=True
+    )
+
+    class Meta:
+        verbose_name = 'Solución de tarea'
+        verbose_name_plural = 'Soluciones de tareas'
+
+    def __str__(self):
+        return 'Solución de: ' + self.tarea.__str__()

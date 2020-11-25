@@ -27,7 +27,8 @@ from portal_web.views import (
     ListaClases,
     ListaTareas,
     DetalleClases,
-    DetalleTareas
+    DetalleTareas,
+    ResolverTareas
 )
 
 # URLs del portal web
@@ -52,7 +53,8 @@ urlpatterns = [
     path('main/aula/leccion/<int:pk>', login_required(DetalleClases.as_view(), login_url=settings.LOGIN_URL), name='detalle_clase'),
 
     path('main/aula/tareas', login_required(ListaTareas.as_view(), login_url=settings.LOGIN_URL), name='tareas_pendientes'),
-    path('main/aula/tarea/<int:assigment_pk>', login_required(DetalleTareas.as_view(), login_url=settings.LOGIN_URL), name='resolucion_tareas'),
+    path('main/aula/tarea/<int:assigment_pk>', login_required(ResolverTareas.as_view(), login_url=settings.LOGIN_URL), name='resolucion_tareas'),
+    path('main/aula/tarea-resuelta/<int:pk>', login_required(DetalleTareas.as_view(), login_url=settings.LOGIN_URL), name='vista_tareas_resueltas'),
 
     path('main/docencia/', portal_views.contenido_docente, name='docencia'),
     path('main/noticias/', portal_views.main, name='noticias'),
