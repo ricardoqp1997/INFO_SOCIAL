@@ -5,3 +5,4 @@ mysqlclient>=2.0.1
 dj-static>=0.0.6
 static3>=0.7.0
 django_crispy_forms>=1.10.0
+whitenoise>=5.2.0

@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'INFO_SOCIAL.urls'
@@ -80,8 +81,9 @@ WSGI_APPLICATION = 'INFO_SOCIAL.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+
     'default': dict(
-        ENGINE='sql_server.pyodbc',
+        ENGINE='django.db.backends.mysql',
         NAME='bd_tucolegio',
         USER='kq7t21ke06o4',
         PASSWORD='a1DCBA?b8',
@@ -92,8 +94,8 @@ DATABASES = {
 
 """
 DATABASES = {
-    'default': dict(
-        ENGINE='django.db.backends.mysql',
+     'default': dict(
+        ENGINE='sql_server.pyodbc',
         NAME='bd_tucolegio',
         USER='kq7t21ke06o4',
         PASSWORD='a1DCBA?b8',
@@ -142,6 +144,8 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Adición de archivos estaticos al proyecto
 STATICFILES_DIRS = [
