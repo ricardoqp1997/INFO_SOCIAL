@@ -81,6 +81,18 @@ WSGI_APPLICATION = 'INFO_SOCIAL.wsgi.application'
 
 DATABASES = {
     'default': dict(
+        ENGINE='sql_server.pyodbc',
+        NAME='bd_tucolegio',
+        USER='kq7t21ke06o4',
+        PASSWORD='a1DCBA?b8',
+        HOST='107.180.0.219',
+        PORT='3306'
+    )
+}
+
+"""
+DATABASES = {
+    'default': dict(
         ENGINE='django.db.backends.mysql',
         NAME='bd_tucolegio',
         USER='kq7t21ke06o4',
@@ -89,6 +101,7 @@ DATABASES = {
         PORT='3306'
     )
 }
+"""
 
 
 # Password validation
@@ -127,6 +140,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Adición de archivos estaticos al proyecto
