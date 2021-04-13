@@ -87,12 +87,12 @@ WSGI_APPLICATION = 'INFO_SOCIAL.wsgi.application'
 DATABASES = {
 
     'default': dict(
-        ENGINE='django.db.backends.mysql',
-        NAME='bd_tucolegio',
-        USER='kq7t21ke06o4',
-        PASSWORD='a1DCBA?b8',
-        HOST='107.180.0.219',
-        PORT='3306'
+        ENGINE='django.db.backends.postgresql_psycopg2',
+        NAME='d74gmmc7nk0b9c',
+        USER='bizhalltaeothb',
+        PASSWORD='1f22b8eb69956fb98a859cb1ce658b2e4a3780c425bb6ee3f7f00a6d0a395df3',
+        HOST='ec2-52-22-161-59.compute-1.amazonaws.com',
+        PORT='5432'
     )
 }
 
@@ -108,7 +108,6 @@ DATABASES = {
     )
 }
 """
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

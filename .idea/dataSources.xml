@@ -18,5 +18,12 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://107.180.0.219:3306/bd_tucolegio</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="postgres@heroku" uuid="a3b9e64a-f64f-42c7-ad31-d5e05fc25b0e">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-52-22-161-59.compute-1.amazonaws.com:5432/d74gmmc7nk0b9c</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
