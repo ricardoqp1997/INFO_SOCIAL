@@ -34,7 +34,7 @@ class DocenteAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
         if db_field.name == 'user':
             kwargs["queryset"] = User.objects.filter(
-                user__groups__name='Docentes'
+                groups__name='Docentes'
             )
 
         return super(DocenteAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
