@@ -318,7 +318,10 @@ class ResolverTareas(CreateView):
         return super(ResolverTareas, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('vista_tareas_resueltas', kwargs={'pk': self.object.pk})
+        try:
+            return reverse('vista_tareas_resueltas', kwargs={'pk': self.object.pk})
+        except IOError:
+            return None
 
     def get_context_data(self, **kwargs):
 

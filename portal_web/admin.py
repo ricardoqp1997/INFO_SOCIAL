@@ -20,6 +20,25 @@ class DocenteAdmin(admin.ModelAdmin):
     list_display = ['get_nombre_docente', 'get_numero_asignaturas', 'get_correo_docente', 'contacto', 'whatsapp', ]
     list_filter = ['user__email', 'contacto', ]
 
+    add_fieldsets = (
+        (
+            'Datos de asignación de usuario de grupo docente como docente activo en la plataforma', {
+                'classes': ['wide', 'extrapretty', ],
+                'fields': ['user', 'contacto', 'whatsapp']
+            }
+        ),
+    )
+
+    fieldsets = add_fieldsets
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name == 'user':
+            kwargs["queryset"] = Docente.objects.filter(
+                user__groups__name='Docentes'
+            ).distinct()
+
+        return super(DocenteAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
     def get_nombre_docente(self, obj):
         return User.objects.get(id=obj.user_id).get_full_name()
 
