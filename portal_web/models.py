@@ -63,8 +63,8 @@ class Docente(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Docente'
-        verbose_name_plural = 'Docentes'
+        verbose_name = 'Docente activo'
+        verbose_name_plural = 'Docentes activos'
 
     def __str__(self):
         return self.user.get_full_name()
