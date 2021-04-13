@@ -1,33 +1,26 @@
 # Librerías de Django para el manejo de las vistas, plantillas y navegación
-from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
-from django.contrib import messages
+# Módulos de configuracion del proyecto
+from django.conf import settings
+# Módulos para la manipulación de usuarios
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout
+)
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.shortcuts import render, redirect, reverse
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView
 )
 
-# Módulos de configuracion del proyecto
-from django.conf import settings
-
-# Módulos para la manipulación de usuarios
-from django.contrib.auth import (
-    authenticate,
-    get_user_model,
-    login,
-    logout
-)
-
-from django.contrib.auth.models import Group
-
 # Módulos de forms.py
 from .forms import (
     UserLoginForm,
     AssigmentResolution
 )
-
 from .models import *
 
 user = None
@@ -312,6 +305,10 @@ class ResolverTareas(CreateView):
     template_name = 'tareas_detalles.html'
     form_class = AssigmentResolution
 
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+        self.object = None
+
     def form_valid(self, form):
 
         form.instance.estudiante = Estudiante.objects.get(user_id=self.request.user)
@@ -382,7 +379,6 @@ class ResolverTareas(CreateView):
             if tarea == solucion.tarea:
                 return redirect('vista_tareas_resueltas', pk=solucion.pk)
         except:
-            self.object = None
             return super().get(request, *args, **kwargs)
 
 
